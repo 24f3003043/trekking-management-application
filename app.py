@@ -1,6 +1,9 @@
 from flask import Flask
+from werkzeug.security import generate_password_hash
+
 from config import Config
 from models import db, User
+from routes import register_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,9 +22,9 @@ with app.app_context():
     if not admin:
 
         admin = User(
-            name="Administrator",
+            name="Admin",
             email="admin@trekverse.com",
-            password="admin123",
+            password=generate_password_hash("admin123"),
             phone="9999999999",
             role="admin",
             approved=True,
@@ -36,11 +39,7 @@ with app.app_context():
     else:
         print(" Admin Already Exists")
 
-
-@app.route("/")
-def home():
-    return "Welcome to TrekVerse - Trekking Management Application"
-
+register_routes(app)
 
 if __name__ == "__main__":
     app.run(debug=True)
