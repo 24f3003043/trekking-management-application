@@ -1,11 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="mb-4">
+    <h2>User Dashboard</h2>
+    <h3>Welcome, {{ session.name }}</h3>
+    <hr>
+</div>
 
-<h2>User Dashboard</h2>
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 text-center">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title text-success">Browse Treks</h5>
+                    <p class="card-text text-muted">Find upcoming treks, search by location, filter by difficulty, and book your slots.</p>
+                </div>
+                <a href="/user/treks" class="btn btn-success mt-3">View Available Treks</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 text-center">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title text-success">My Bookings</h5>
+                    <p class="card-text text-muted">View your current booked treks, check booking statuses, and look at your trek history.</p>
+                </div>
+                <a href="/user/bookings" class="btn btn-success mt-3">View My Bookings</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h3>Welcome {{ session.name }}</h3>
-
-<a href="/logout">Logout</a>
-
+<div class="text-end">
+    <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
 {% endblock %}
