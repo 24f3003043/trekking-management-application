@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Treks</h2>
+    <div>
+        <a href="/admin/treks/add" class="btn btn-success me-2">Add New Trek</a>
+        <a href="/admin/dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+</div>
+<form method="GET" action="/admin/treks" class="row g-3 mb-4">
+    <div class="col-md-9">
+        <input type="text" name="q" class="form-control" placeholder="Search by trek name or location..." value="{{ q or '' }}">
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-success w-100">Search</button>
+    </div>
+</form>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-success">
+                <tr>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Difficulty</th>
+                    <th>Duration (Days)</th>
+                    <th>Slots Left</th>
+                    <th>Status</th>
+                    <th>Assigned Staff</th>
+                    <th>Dates</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trek in treks %}
+                <tr>
+                    <td><strong>{{ trek.name }}</strong></td>
+                    <td>{{ trek.location }}</td>
+                    <td>
+                        <span class="badge {% if trek.difficulty == 'Easy' %}bg-info{% elif trek.difficulty == 'Medium' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                            {{ trek.difficulty }}
+                        </span>
+                    </td>
+                    <td>{{ trek.duration }}</td>
+                    <td>{{ trek.available_slots }}</td>
+                    <td>
+                        <span class="badge {% if trek.status == 'Open' %}bg-success{% elif trek.status == 'Closed' %}bg-secondary{% elif trek.status == 'Pending' %}bg-warning text-dark{% else %}bg-primary{% endif %}">
+                            {{ trek.status }}
+                        </span>
+                    </td>
+                    <td>{{ trek.staff.name if trek.staff else 'Unassigned' }}</td>
+                    <td>
+                        <small>
+                            {{ trek.start_date.strftime('%Y-%m-%d') if trek.start_date else 'N/A' }} to<br>
+                            {{ trek.end_date.strftime('%Y-%m-%d') if trek.end_date else 'N/A' }}
+                        </small>
+                    </td>
+                    <td>
+                        <a href="/admin/treks/edit/{{ trek.id }}" class="btn btn-sm btn-primary me-1">Edit</a>
+                        <form action="/admin/treks/delete/{{ trek.id }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this trek?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="text-center py-4">No treks found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

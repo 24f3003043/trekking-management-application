@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Trek History & Status Tracking</h2>
+    <a href="/admin/dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
+</div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-success">
+                <tr>
+                    <th>Trek ID</th>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Staff Assigned</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trek in treks %}
+                <tr>
+                    <td>#{{ trek.id }}</td>
+                    <td><strong>{{ trek.name }}</strong></td>
+                    <td>{{ trek.location }}</td>
+                    <td>{{ trek.staff.name if trek.staff else 'Unassigned' }}</td>
+                    <td>{{ trek.start_date.strftime('%Y-%m-%d') if trek.start_date else 'N/A' }}</td>
+                    <td>{{ trek.end_date.strftime('%Y-%m-%d') if trek.end_date else 'N/A' }}</td>
+                    <td>
+                        <span class="badge {% if trek.status == 'Completed' %}bg-success{% elif trek.status == 'Started' or trek.status == 'Ongoing' %}bg-primary{% elif trek.status == 'Open' %}bg-info{% elif trek.status == 'Closed' %}bg-secondary{% else %}bg-warning text-dark{% endif %}">
+                            {{ trek.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/admin/treks/edit/{{ trek.id }}" class="btn btn-sm btn-outline-primary">View/Edit Detail</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center py-4">No treks found in history.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

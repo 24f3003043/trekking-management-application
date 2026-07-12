@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Add New Trek</h2>
+    <a href="/admin/treks" class="btn btn-outline-secondary">Back to Treks</a>
+</div>
+
+<div class="card shadow-sm col-md-8 offset-md-2">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Trek Name</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Difficulty</label>
+                    <select name="difficulty" class="form-select">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Duration (Days)</label>
+                    <input type="number" name="duration" class="form-control" min="1" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Available Slots</label>
+                    <input type="number" name="available_slots" class="form-control" min="1" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" name="start_date" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">End Date</label>
+                    <input type="date" name="end_date" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Assign Trek Staff (Guide)</label>
+                <select name="staff_id" class="form-select">
+                    <option value="">-- No Guide Assigned --</option>
+                    {% for member in staff %}
+                    <option value="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="Pending">Pending</option>
+                    <option value="Open" selected>Open</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Create Trek</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

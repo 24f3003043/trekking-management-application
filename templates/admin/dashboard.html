@@ -1,25 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="mb-4">
+    <h2>Admin Dashboard</h2>
+    <h3>Welcome, {{ session.name }}</h3>
+    <hr>
+</div>
 
-<h2>Admin Dashboard</h2>
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-light shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">Total Users</h5>
+                <p class="display-6">{{ total_users }}</p>
+                <a href="/admin/users" class="btn btn-sm btn-success">Manage Users</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-light shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">Total Staff</h5>
+                <p class="display-6">{{ total_staff }}</p>
+                <a href="/admin/staff" class="btn btn-sm btn-success">Manage Staff</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-light shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">Total Treks</h5>
+                <p class="display-6">{{ total_treks }}</p>
+                <a href="/admin/treks" class="btn btn-sm btn-success">Manage Treks</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-light shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">Total Bookings</h5>
+                <p class="display-6">{{ total_bookings }}</p>
+                <a href="/admin/bookings" class="btn btn-sm btn-success">Manage Bookings</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h3>Welcome {{ session.name }}</h3>
-
-<hr>
-
-<p>Total Users : {{ total_users }}</p>
-
-<p>Total Staff : {{ total_staff }}</p>
-
-<p>Total Treks : {{ total_treks }}</p>
-
-<p>Total Bookings : {{ total_bookings }}</p>
-
-<hr>
-
-<a href="/admin/add_trek">Add Trek</a><br><br>
-
-<a href="/logout">Logout</a>
-
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">Quick Operations</div>
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="/admin/treks/add" class="btn btn-primary">Add New Trek</a>
+            <a href="/admin/trek-history" class="btn btn-outline-success">View Trek History & Statuses</a>
+            <a href="/logout" class="btn btn-danger ms-auto">Logout</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
