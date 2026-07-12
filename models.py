@@ -27,6 +27,12 @@ class User(db.Model):
 
     blacklisted = db.Column(db.Boolean, default=False)
 
+    experience_years = db.Column(db.Integer, default=0)
+
+    skills = db.Column(db.String(255), default="")
+
+    bio = db.Column(db.Text, default="")
+
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
