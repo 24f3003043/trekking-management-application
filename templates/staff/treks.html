@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Assigned Treks</h2>
+    <a href="/staff/dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-success">
+                <tr>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Difficulty</th>
+                    <th>Duration (Days)</th>
+                    <th>Available Slots</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trek in treks %}
+                <tr>
+                    <td><strong>{{ trek.name }}</strong></td>
+                    <td>{{ trek.location }}</td>
+                    <td>
+                        <span class="badge {% if trek.difficulty == 'Easy' %}bg-info{% elif trek.difficulty == 'Medium' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                            {{ trek.difficulty }}
+                        </span>
+                    </td>
+                    <td>{{ trek.duration }}</td>
+                    <td>{{ trek.available_slots }}</td>
+                    <td>
+                        <small>
+                            {{ trek.start_date.strftime('%Y-%m-%d') if trek.start_date else 'N/A' }} to<br>
+                            {{ trek.end_date.strftime('%Y-%m-%d') if trek.end_date else 'N/A' }}
+                        </small>
+                    </td>
+                    <td>
+                        <span class="badge {% if trek.status == 'Open' %}bg-success{% elif trek.status == 'Completed' %}bg-primary{% elif trek.status == 'Closed' %}bg-secondary{% else %}bg-warning text-dark{% endif %}">
+                            {{ trek.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/staff/treks/{{ trek.id }}" class="btn btn-sm btn-success">Manage Trek</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center py-4">No treks have been assigned to you yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

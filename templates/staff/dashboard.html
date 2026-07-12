@@ -1,11 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="mb-4">
+    <h2>Staff Dashboard</h2>
+    <h3>Welcome, {{ session.name }}</h3>
+    <hr>
+</div>
 
-<h2>Staff Dashboard</h2>
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 text-center">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title text-success">My Profile</h5>
+                    <p class="card-text text-muted">Update your professional experience, skills, and bio information.</p>
+                </div>
+                <a href="/staff/profile" class="btn btn-success mt-3">Update Profile</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 text-center">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title text-success">My Assigned Treks</h5>
+                    <p class="card-text text-muted">View and manage treks assigned to you. Update slots, start/complete treks, and manage participants.</p>
+                </div>
+                <a href="/staff/treks" class="btn btn-success mt-3">Manage Treks</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h3>Welcome {{ session.name }}</h3>
-
-<a href="/logout">Logout</a>
-
+<div class="text-end">
+    <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
 {% endblock %}
