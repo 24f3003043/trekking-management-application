@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Manage Trek: {{ trek.name }}</h2>
-    <a href="/staff/treks" class="btn btn-outline-secondary">Back to My Treks</a>
+    <a href="/staff/staff_treks" class="btn btn-outline-secondary">Back to My Treks</a>
 </div>
+
 <div class="row g-4 mb-4">
     <div class="col-md-4">
         <div class="card shadow-sm h-100">
@@ -49,6 +51,7 @@
         </div>
     </div>
 </div>
+
 <div class="card shadow-sm">
     <div class="card-header bg-success text-white">Participant List</div>
     <div class="card-body p-0">
@@ -77,7 +80,7 @@
                     </td>
                     <td>
                         {% if booking.status == 'Booked' %}
-                        <form action="/staff/treks/{{ trek.id }}/participants/{{ booking.id }}/cancel" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to cancel this user\'s booking?');">
+                        <form action="/staff/staff_treks/{{ trek.id }}/participants/{{ booking.id }}/cancel" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to cancel this user\'s booking?');">
                             <button type="submit" class="btn btn-sm btn-danger">Cancel Booking</button>
                         </form>
                         {% else %}

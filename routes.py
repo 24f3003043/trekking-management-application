@@ -17,18 +17,12 @@ from models import db, User, Trek, Booking
 
 
 def register_routes(app):
-
-    # ----------------------------
-    # Home Page
-    # ----------------------------
+    # Home page
     @app.route("/")
     def home():
         return render_template("home.html")
 
-
-    # ----------------------------
     # Register
-    # ----------------------------
     @app.route("/register", methods=["GET", "POST"])
     def register():
 
@@ -65,10 +59,7 @@ def register_routes(app):
 
         return render_template("register.html")
 
-
-    # ----------------------------
     # Login
-    # ----------------------------
     @app.route("/login", methods=["GET", "POST"])
     def login():
 
@@ -106,10 +97,7 @@ def register_routes(app):
 
         return render_template("login.html")
 
-
-    # ----------------------------
     # Logout
-    # ----------------------------
     @app.route("/logout")
     def logout():
 
@@ -117,10 +105,7 @@ def register_routes(app):
 
         return redirect(url_for("home"))
 
-
-    # ----------------------------
-    # Admin Dashboard
-    # ----------------------------
+    # Admin dashboard
     @app.route("/admin/dashboard")
     def admin_dashboard():
 
@@ -143,10 +128,7 @@ def register_routes(app):
             total_bookings=total_bookings
         )
 
-
-    # ----------------------------
     # Staff Dashboard
-    # ----------------------------
     @app.route("/staff/dashboard")
     def staff_dashboard():
         if "user_id" not in session:
@@ -155,9 +137,7 @@ def register_routes(app):
             return "Access Denied"
         return render_template("staff/dashboard.html")
 
-    # ----------------------------
     # User Dashboard
-    # ----------------------------
     @app.route("/user/dashboard")
     def user_dashboard():
         if "user_id" not in session:
@@ -166,10 +146,7 @@ def register_routes(app):
             return "Access Denied"
         return render_template("user/dashboard.html")
 
-    # =========================================================================
     # ADMIN ROUTES
-    # =========================================================================
-
     # Manage Users (Trekkers)
     @app.route("/admin/users")
     def admin_users():
@@ -244,7 +221,7 @@ def register_routes(app):
         return redirect(url_for("admin_users"))
 
     # View Treks (Admin)
-    @app.route("/admin/treks")
+    @app.route("/admin/admin_treks")
     def admin_treks():
         if "user_id" not in session or session["role"] != "admin":
             return "Access Denied"
@@ -253,10 +230,10 @@ def register_routes(app):
             treks = Trek.query.filter(Trek.name.like(f"%{q}%") | Trek.location.like(f"%{q}%")).all()
         else:
             treks = Trek.query.all()
-        return render_template("admin/treks.html", treks=treks, q=q)
+        return render_template("admin/admin_treks.html", treks=treks, q=q)
 
     # Add Trek
-    @app.route("/admin/treks/add", methods=["GET", "POST"])
+    @app.route("/admin/admin_treks/add", methods=["GET", "POST"])
     def admin_add_trek():
         if "user_id" not in session or session["role"] != "admin":
             return "Access Denied"
@@ -297,7 +274,7 @@ def register_routes(app):
         return render_template("admin/add_trek.html", staff=staff)
 
     # Edit Trek
-    @app.route("/admin/treks/edit/<int:trek_id>", methods=["GET", "POST"])
+    @app.route("/admin/admin_treks/edit/<int:trek_id>", methods=["GET", "POST"])
     def admin_edit_trek(trek_id):
         if "user_id" not in session or session["role"] != "admin":
             return "Access Denied"
@@ -326,7 +303,7 @@ def register_routes(app):
         return render_template("admin/edit_trek.html", trek=trek, staff=staff)
 
     # Delete Trek
-    @app.route("/admin/treks/delete/<int:trek_id>", methods=["POST"])
+    @app.route("/admin/admin_treks/delete/<int:trek_id>", methods=["POST"])
     def admin_delete_trek(trek_id):
         if "user_id" not in session or session["role"] != "admin":
             return "Access Denied"
@@ -365,9 +342,7 @@ def register_routes(app):
         treks = Trek.query.order_by(Trek.start_date.desc()).all()
         return render_template("admin/trek_history.html", treks=treks)
 
-    # =========================================================================
     # STAFF ROUTES
-    # =========================================================================
 
     # Staff Profile
     @app.route("/staff/profile", methods=["GET", "POST"])
@@ -392,15 +367,15 @@ def register_routes(app):
         return render_template("staff/profile.html", user=user, msg=msg)
 
     # Assigned Treks
-    @app.route("/staff/treks")
+    @app.route("/staff/staff_treks")
     def staff_treks():
         if "user_id" not in session or session["role"] != "staff":
             return "Access Denied"
         treks = Trek.query.filter_by(staff_id=session["user_id"]).all()
-        return render_template("staff/treks.html", treks=treks)
+        return render_template("staff/staff_treks.html", treks=treks)
 
     # Manage Assigned Trek
-    @app.route("/staff/treks/<int:trek_id>", methods=["GET", "POST"])
+    @app.route("/staff/staff_treks/<int:trek_id>", methods=["GET", "POST"])
     def staff_manage_trek(trek_id):
         if "user_id" not in session or session["role"] != "staff":
             return "Access Denied"
@@ -419,7 +394,7 @@ def register_routes(app):
         return render_template("staff/manage_trek.html", trek=trek, bookings=bookings, msg=msg)
 
     # Cancel Participant Booking (Staff)
-    @app.route("/staff/treks/<int:trek_id>/participants/<int:booking_id>/cancel", methods=["POST"])
+    @app.route("/staff/staff_treks/<int:trek_id>/participants/<int:booking_id>/cancel", methods=["POST"])
     def staff_cancel_participant(trek_id, booking_id):
         if "user_id" not in session or session["role"] != "staff":
             return "Access Denied"
@@ -437,12 +412,10 @@ def register_routes(app):
             
         return redirect(url_for("staff_manage_trek", trek_id=trek.id))
 
-    # =========================================================================
     # USER ROUTES
-    # =========================================================================
 
     # Browse and Search Treks
-    @app.route("/user/treks")
+    @app.route("/user/user_treks")
     def user_treks():
         if "user_id" not in session or session["role"] != "user":
             return "Access Denied"
@@ -462,7 +435,7 @@ def register_routes(app):
         bookings = Booking.query.filter_by(user_id=session["user_id"], status="Booked").all()
         booked_trek_ids = {b.trek_id for b in bookings}
         
-        return render_template("user/treks.html", treks=treks, location=location, difficulty=difficulty, booked_trek_ids=booked_trek_ids)
+        return render_template("user/user_treks.html", treks=treks, location=location, difficulty=difficulty, booked_trek_ids=booked_trek_ids)
 
     # Book a Trek
     @app.route("/user/book/<int:trek_id>", methods=["POST"])
